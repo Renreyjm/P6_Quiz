@@ -140,7 +140,8 @@ exports.play = (req, res, next) => {
 
 
 // GET /quizzes/:quizId/check
-exports.check = (req, res, next) => {
+exports.check = (req, res, next) =>
+{
 
     const {quiz, query} = req;
 
@@ -153,3 +154,9 @@ exports.check = (req, res, next) => {
         answer
     });
 };
+//GET randomplay
+exports.randomplay = (req, res, next) =>{};
+//GET randomcheck
+exports.randomcheck = (req, res, next) => {};
+
+
