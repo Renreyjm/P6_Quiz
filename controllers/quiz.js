@@ -155,7 +155,9 @@ exports.check = (req, res, next) =>
     });
 };
 //GET randomplay
-exports.randomplay = (req, res, next) =>{};
+exports.randomplay = (req, res, next) =>{
+    res.render('quizzes/play');
+};
 //GET randomcheck
 exports.randomcheck = (req, res, next) => {};
 
