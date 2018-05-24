@@ -187,7 +187,7 @@ exports.randomcheck = (req, res, next) =>{
         req.session.randomPlay.push(quiz.id);
     }
     else {
-        req.session.randomPlay = [];
+        req.session.randomPlay.delete(quiz.id);
     }
 
     res.render('quizzes/random_result', {
