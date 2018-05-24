@@ -181,10 +181,11 @@ exports.randomcheck = (req, res, next) =>{
     const {quiz, query} = req;
     const answer = query.answer || "";
     const result = answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim();
-    const score = req.session.randomPlay.length + result;
+    var score = req.session.randomPlay.score;
 
     if(result) {
-        req.session.randomPlay.push(quiz.id);
+        req.session.randomPlay.push(quiz.id)
+        score =score +1 ;
     }
     else {
         req.session.randomPlay.delete(quiz.id);
