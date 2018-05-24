@@ -156,9 +156,47 @@ exports.check = (req, res, next) =>
 };
 //GET randomplay
 exports.randomplay = (req, res, next) =>{
-    res.render('quizzes/play');
+    req.session.toBePlayed = req.session.toBePlayed || [];
+    req.session.score = req.session.score || 0;
+    toBePlayed = req.session.toBePlayed;
+    score = req.session.score;
+    models.quiz.findOne({where: {id: {[Sequelize.Op.notIn] : toBePlayed }} ,order: [Sequelize.fn('RANDOM')] })
+        .then(quiz => {
+
+        if (quiz){
+            req.session.toBePlayed.push(quiz.id);
+            res.render('quizzes/random_play', {score, quiz});
+        } else {
+            delete req.session.toBePlayed;
+            delete req.session.score;
+            res.render('quizzes/random_nomore', {score})
+}
+}).catch(error => next(error));
+
+
 };
 //GET randomcheck
-exports.randomcheck = (req, res, next) => {};
+exports.randomcheck = (req, res, next) =>{
+
+    const {quiz, query} = req;
+    const answer = query.answer || "";
+    const result = answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim();
+    const score = req.session.randomPlay.length + result;
+
+    if(result) {
+        req.session.randomPlay.push(quiz.id);
+    }
+    else {
+        req.session.randomPlay = [];
+    }
+
+    res.render('quizzes/random_result', {
+        result,
+        score,
+        answer
+    });
+};
+
+
 
 
